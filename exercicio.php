@@ -17,5 +17,5 @@ if ($num < 2) {
 } else if ($num % 11 == 0 && $num != 11) {
     echo "Não é um número primo <hr>";
 } else {
-    echo "É um número primo <hr>";
+    echo "É um número primo ! <hr>";
 }
