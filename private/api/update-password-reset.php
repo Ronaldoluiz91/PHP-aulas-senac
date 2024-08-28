@@ -9,6 +9,16 @@ $newHash = $_GET["new-hash"];
 $sql = "SELECT hash FROM tbl_login WHERE nome OR email "; 
 
 $exc = $conn->query($sql);
+if ($exc->num_rows > 0) {
+    while ($row = $exc->fetch_assoc()) {
+        $hashRec = $row["hash"];
+          
+    }
+}
+
+if($newHash !== $hashRec){
+    $resp = "Erro a hash esta incorreta";
+}
 
 
 
