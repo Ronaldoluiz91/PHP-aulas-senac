@@ -70,7 +70,7 @@ if (
 
             //Cript Hash
             //$hashDB = crypt($usernameC, '$2b$' . $custHash . '$' . $saltHash . '$');
-            $hashDB = crypt($userEmail, '$2b$' . $custHash . '$' . $saltHash . '$');
+            $hashDB = crypt($username, '$2b$' . $custHash . '$' . $saltHash . '$');
 
             $sql = "INSERT INTO tbl_login (idLogin, nome, email, senha, FK_idStatus, FK_idAcesso, hash) VALUES (NULL, '$username', '$userEmail', '$senhaDB', '2', '2', '$hashDB')";
 

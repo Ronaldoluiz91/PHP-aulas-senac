@@ -2,6 +2,11 @@
 $pageName = "Recuperação de Senha";
 include ("inc/head.inc.php");
 
+include("../private/db/conn.php");
+
+$hash = $_GET['idRec'];
+
+// echo $hash
 
 ?>
 
@@ -14,9 +19,8 @@ include ("inc/head.inc.php");
         <input type="text" name="new-password"  placeholder="Digite sua senha "><br>
         <label>Confirmação de Senha:</label><br>
         <input type="text" name="confirm-new-password"  placeholder="Digite sua senha "><br>
-        <input type="hidden" name="" >
+        <input type="hidden" name="hash" value="<?= $hash ?>" >
         <input type="submit" value="Alterar Senha">
-        <!-- <a href="user-register.php">Alterar Senha</a> -->
     </form>
     <hr>
     <p>
@@ -26,4 +30,3 @@ include ("inc/head.inc.php");
 
 
 <?php include("inc/footer.inc.php");
-
