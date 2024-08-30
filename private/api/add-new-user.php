@@ -66,7 +66,7 @@ if (
            
 
             //Cript senha
-            $senhaDB = crypt($userEmail, '$2b$' . $custSenha . '$' . $saltSenha . '$');
+            $senhaDB = crypt($userEmailC, '$2b$' . $custSenha . '$' . $saltSenha . '$');
 
             //Cript Hash
             //$hashDB = crypt($usernameC, '$2b$' . $custHash . '$' . $saltHash . '$');

@@ -7,9 +7,9 @@ include ("inc/head.inc.php");
 
 <main>
     <h1>Login</h1>
-    <form method="post" action="#">
+    <form method="post" action="../private/api/validation-user.php">
         <label>Usuario:</label><br>
-        <input type="text" name="user-login" required placeholder="Digite seu email"><br>
+        <input type="text" name="user-login-email" required placeholder="Digite seu email ou usuario"><br>
         
         <label>Senha:</label><br>
         <input type="text" name="user-password" required placeholder="Digite sua senha"><br> <!--Depois muda o type para password -->
