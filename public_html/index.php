@@ -19,7 +19,7 @@ include("inc/head.inc.php");
         <hr>
     </div>
 
-    <a href="#">Recuperar senha</a> | <a href="add.new.user.php">Cadastrar usuario</a>
+    <a href="recover.password.form.php">Recuperar senha</a> | <a href="add.new.user.php">Cadastrar usuario</a>
 </main>
 
 <script>

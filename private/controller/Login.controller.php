@@ -2,14 +2,16 @@
 
 
 //Criando a classe de LOGIN
-
 class LOGIN
 {
     private $userLoginEmail;
     private $userPassword;
-    // private $fxLogin;
-    // private $fxCadUser;
+    private $newUser;
+    private $newEmail;
+    private $confirmPassword;
+   
 
+    // Métodos para email e senha de login
     public function setUserLoginEmail(String $userLoginEmail)
     {
         $this->userLoginEmail = $userLoginEmail;
@@ -28,34 +30,35 @@ class LOGIN
         return $this->userPassword;
     }
 
-    // public function setfxLogin($fxLogin)
-    // {
-    //     $this->fxLogin = $fxLogin;
-    // }
+    // Métodos para novo usuário e email 
+    public function setNewUser(String $newUser)
+    {
+        $this->newUser = $newUser;
+    }
+    public function getNewUser()
+    {
+        return $this->newUser;
+    }
 
-    // public function getfxLogin()
-    // {
-    //     return $this->fxLogin;
-    // }
+    public function setNewEmail(String $newEmail)
+    {
+        $this->newEmail = $newEmail;
+    }
+    public function getNewEmail()
+    {
+        return $this->newEmail;
+    }
 
-    // public function setfxCadUser($fxCadUser){
-    //     $this->fxCadUser = $fxCadUser;
-    // }
 
-    // public function getfxCadUser(){
-    //     return $this->fxCadUser;
-    // }
+    //CONFIRMAÇÃO DE SENHA NOVO USUARIO
+    public function setConfirmPassword(String $confirmPassword)
+    {
+        $this->confirmPassword = $confirmPassword;
+    }
+    public function getConfirmPassword()
+    {
+        return $this->confirmPassword;
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-//$userLoginEmail
-//$userPassword
+?>
