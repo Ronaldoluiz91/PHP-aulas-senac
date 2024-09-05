@@ -31,7 +31,7 @@ include("inc/head.inc.php");
 
 
         $.ajax({
-            url: "<?= $urlPrivate ?>/model/Login.model.php",
+            url: "<?= $urlPrivate ?>/controller/Login.controller.php",
             method: "POST",
             async: true,
             data: {

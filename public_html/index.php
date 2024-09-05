@@ -28,22 +28,33 @@ include("inc/head.inc.php");
         var userPassword = $('#user-password').val();
         var fxLogin = $('#fxLogin').val();
 
-        if((! userLoginEmail) || (!userPassword)){
+        if ((!userLoginEmail) || (!userPassword)) {
             $('#alertMsg').text('Por favor, preencha todos os campos');
             $('#user-login-email').focus();
             return;
         }
 
         $.ajax({
-            url: "<?= $urlPrivate ?>/model/Login.model.php",
-            method: "POST",
-            async: true,
-            data: {
-                userLoginEmail: userLoginEmail,
-                userPassword: userPassword,
-                fxLogin:fxLogin
-            }
-        })
+                url: "<?= $urlPrivate ?>/controller/Login.controller.php",
+                method: "POST",
+                async: true,
+                data: {
+                    userLoginEmail: userLoginEmail,
+                    userPassword: userPassword,
+                    fxLogin: fxLogin
+                }
+            })
+
+            .done(function(result) {
+                if (result['status']) {
+                    // document.getElementById("alertMsg").innerHTML = result.msg;
+                    $('#alertMsg').removeClass("error");
+                    $('#alertMsg').html(result.msg).addClass("sucess");
+                } else {
+                    $('#alertMsg').html(result.msg).addClass("error");
+
+                }
+            })
     }
 </script>
 
