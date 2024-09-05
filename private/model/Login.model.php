@@ -60,7 +60,7 @@ class LOGIN
     }
 
     public function validateLogin(String $fxLogin){
-    require = "../config/db/conn.php";
+    require  "../config/db/conn.php";
 
     //Prepara o consulta SQL usando parametros do PDO
      $sql = "SELECT * FROM tbl_login WHERE nome= :userLogin OR email = :userEmail";
