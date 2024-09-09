@@ -37,10 +37,35 @@ switch ($fxLogin) {
         $userPassword = $_POST['userPassword'];
         $confirmPassword = $_POST['confirmPassword'];
 
-        $LOGIN->setNewUser($newUser);
-        $LOGIN->setNewEmail($newEmail);
-        $LOGIN->setUserPassword($userPassword);
-        $LOGIN->setConfirmPassword($confirmPassword);
+        if (
+            (isset($newUser)) || (empty($newUser)) || ($newUser === "") ||
+            (isset($newEmail)) || (empty($newEmail)) || ($newEmail === "") ||
+            (isset($userPassword)) || (empty($userPassword)) || ($userPassword === "") ||
+            (isset($confirmPassword)) || (empty($confirmPassword)) || ($confirmPassword === "")
+        ) {
+
+            if ($userPassword === $confirmPassword) {
+                $LOGIN->setNewUser($newUser);
+                $LOGIN->setNewEmail($newEmail);
+                $LOGIN->setUserPassword($userPassword);
+
+
+                $result = [
+                    'status' => true,
+                    'msg' => "OK - as senhas combinam"
+                ];
+            } else {
+                $result = [
+                    'status' => false,
+                    'msg' => "Usuario- senhas não combinam"
+                ];
+            }
+        } else {
+            $result = [
+                'status' => false,
+                'msg' => "Usuario- Preencha todos os campos"
+            ];
+        }
         break;
 
     case 'Recuperar':
@@ -57,12 +82,13 @@ switch ($fxLogin) {
         break;
 }
 
-// echo json_encode($result);
+header('Content-Type: Application/json');
+echo json_encode($result);
 
-echo "<pre>";
-var_dump($LOGIN);
-echo "</pre>";
+// echo "<pre>";
+// var_dump($LOGIN);
+// echo "</pre>";
 
-echo "<pre>";
-var_dump($result);
-echo "</pre>";
+// echo "<pre>";
+// var_dump($result);
+// echo "</pre>";

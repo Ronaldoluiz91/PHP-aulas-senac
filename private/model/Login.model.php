@@ -9,7 +9,7 @@ class LOGIN
     private $newUser;
     private $newEmail;
     private $confirmPassword;
-   
+
 
     // Métodos para email e senha de login
     public function setUserLoginEmail(String $userLoginEmail)
@@ -59,40 +59,75 @@ class LOGIN
         return $this->confirmPassword;
     }
 
-    public function validateLogin(String $fxLogin){
-    require  "../config/db/conn.php";
 
-    //Prepara o consulta SQL usando parametros do PDO
-     $sql = "SELECT * FROM tbl_login WHERE nome= :userLogin OR email = :userEmail";
-     $stmt = $conn->prepare($sql);
-$stmt->bindParm(':userLogin' , $this->userLoginEmail);
-$stmt->bindParm(':userEmail' , $this->userLoginEmail);
-$stmt->execulte();
+    //validando
+    public function validateLogin(String $fxLogin)
+    {
+        require  "../config/db/conn.php";
 
-$nameDB = "";
-$emailDB = "";
-$passwordDB ="";
+        //Prepara o consulta SQL usando parametros do PDO
+        $sql = "SELECT * FROM tbl_login WHERE nome= :userLogin OR email = :userEmail";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':userLogin', $this->userLoginEmail);
+        $stmt->bindParam(':userEmail', $this->userLoginEmail);
+        $stmt->execute();
 
-//Busca o resultado da consulta 
-if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-    $nameDB = $row['nome'];
-    $emailDB = $row['email'];
-    $passwordDB = $row['senha']
-    $idStatusDB = $row['idStatus'];
-    $idAclDB = $row['idAcesso'];
-
-}
+        $nameDB = "";
+        $emailDB = "";
+        $passwordDB = "";
 
 
-        $result=[
-            'status' => true,
-            'msg' => "Usuario valido"
-        ];
-        //return $this->fxLogin = "ok";
+        //Busca o resultado da consulta 
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $nameDB = $row['nome'];
+            $emailDB = $row['email'];
+            $passwordDB = $row['senha'];
+            $idStatusDB = $row['FK_idStatus'];
+            $idAclDB = $row['FK_idAcesso'];
+        }
+
+        //Criptografia
+        $apikey = "maçã";
+        $apikey = (md5($apikey));
+
+        $userEmailC = (md5($emailDB));
+        $userPasswordC = (md5($this->userPassword));
+
+        $passWordC = (md5($apikey . $userPasswordC . $userEmailC));
+
+        $custPassword = "09";
+        $saltPassword = $userPasswordC;
+
+        $userPassword = crypt($userEmailC, '$2b$' . $custPassword . '$' . $saltPassword . '$');
+
+
+        if (!(($emailDB === $this->userLoginEmail || $nameDB === $this->userLoginEmail) && ($passwordDB === $userPassword && ($idStatusDB == 2)))) {
+            $result = [
+                'status' => false,
+                'msg' => "Usuario/email ou senha invalido",
+                '$emailDB' => $emailDB,
+                '$nameDB' => $nameDB,
+                'senha sem criptografia' => $this->userPassword,
+                'senha entrada' => $userPassword,
+                'senha banco' => $passwordDB
+            ];
+        } else {
+            $result = [
+                'status' => true,
+                'msg' => "Usuario valido",
+                '$emailDB' => $emailDB,
+                '$nameDB' => $nameDB,
+                'senha sem criptografia' => $this->userPassword,
+                'senha entrada' => $userPassword,
+                'senha banco' => $passwordDB
+            ];
+
+            //Iniciar uma sessão
+            session_start();
+            $_SESSION['nickName'] = (string) $nameDB;
+            $_SESSION['password'] = (string) $passwordDB;
+        }
+
         return $this->fxLogin = $result;
     }
-
-    
 }
-
-?>
