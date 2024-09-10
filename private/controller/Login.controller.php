@@ -49,15 +49,26 @@ switch ($fxLogin) {
                 $LOGIN->setNewEmail($newEmail);
                 $LOGIN->setUserPassword($userPassword);
 
+                $LOGIN->cadastroLogin($fxLogin);
 
-                $result = [
-                    'status' => true,
-                    'msg' => "OK - as senhas combinam"
-                ];
+                $result = $LOGIN->fxLogin;
+
+                // $result = [
+                //     'status' => true,
+                //     'msg' => " <h2>OK - Pode ir pro Model</h2>",
+                //     'userLogin' => $newUser,
+                //     'userEmail' => $newEmail,
+                //     'userPassword' => $userPassword,
+                //     'userConfirmPassword' => $confirmPassword
+                // ];
             } else {
                 $result = [
                     'status' => false,
-                    'msg' => "Usuario- senhas não combinam"
+                    'msg' => "<h2>Usuario- senhas não combinam</h2>",
+                    'userLogin' => $newUser,
+                    'userEmail' => $newEmail,
+                    'userPassword' => $userPassword,
+                    'userConfirmPassword' => $confirmPassword
                 ];
             }
         } else {

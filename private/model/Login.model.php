@@ -1,6 +1,5 @@
 <?php
 
-
 //Criando a classe de LOGIN
 class LOGIN
 {
@@ -126,6 +125,48 @@ class LOGIN
             session_start();
             $_SESSION['nickName'] = (string) $nameDB;
             $_SESSION['password'] = (string) $passwordDB;
+        }
+
+        return $this->fxLogin = $result;
+    }
+
+
+
+    //Consultando se o usuario esta tentando cadastrar um nome ou email ja cadastrado no banco
+    public function cadastroLogin(String $fxLogin)
+    {
+        require  "../config/db/conn.php";
+        //Prepara o consulta SQL usando parametros do PDO
+        $sql = "SELECT * FROM tbl_login WHERE nome= :userLogin OR email = :userEmail";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':userLogin', $this->newUser);
+        $stmt->bindParam(':userEmail', $this->newEmail);
+        $stmt->execute();
+
+        $nameDB = "";
+        $emailDB = "";
+
+
+        //Busca o resultado da consulta 
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $nameDB = $row['nome'];
+            $emailDB = $row['email'];
+        }
+
+        if ($nameDB === $this->newUser || $emailDB === $this->newEmail) {
+            $result = [
+                'status' => false,
+                'msg' => "Usuario/email ja cadastrado",
+                '$emailDB' => $emailDB,
+                '$nameDB' => $nameDB
+            ];
+        } else {
+            $result = [
+                'status' => true,
+                'msg' => "Usuario/email pode ser cadastrado",
+                '$emailDB' => $emailDB,
+                '$nameDB' => $nameDB
+            ];
         }
 
         return $this->fxLogin = $result;

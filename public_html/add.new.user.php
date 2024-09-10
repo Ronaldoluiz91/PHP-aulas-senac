@@ -41,7 +41,7 @@ include("inc/head.inc.php");
         var fxLogin = $('#fxLogin').val();
 
         if((!newUser) || (!newEmail) || (!userPassword) || (!confirmPassword)){
-            $('#alertMsg').text('Por favor, preencha todos os campos');
+            $('#alertMsg').html('<h2>Por favor, preencha todos os campos</h2>');
             $('#userLoginEmail').focus();
             return;
         }
@@ -58,6 +58,17 @@ include("inc/head.inc.php");
                fxLogin: fxLogin
             }
         })
+
+        .done(function(result) {
+                if (result['status']) {
+                    // document.getElementById("alertMsg").innerHTML = result.msg;
+                    $('#alertMsg').removeClass("error");
+                    $('#alertMsg').html(result.msg).addClass("sucess");
+                } else {
+                    $('#alertMsg').html(result.msg).addClass("error");
+
+                }
+            })
     }
 </script>
 
