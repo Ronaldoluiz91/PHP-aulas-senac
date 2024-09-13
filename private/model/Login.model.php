@@ -1,5 +1,5 @@
 <?php
-
+ include_once('Crypt.model.php');
 //Criando a classe de LOGIN
 class LOGIN
 {
@@ -84,20 +84,26 @@ class LOGIN
             $idStatusDB = $row['FK_idStatus'];
             $idAclDB = $row['FK_idAcesso'];
         }
-
         //Criptografia
-        $apikey = "maçã";
-        $apikey = (md5($apikey));
+        // $apikey = "maçã";
+        // $apikey = (md5($apikey));
+        // $userEmailC = (md5($emailDB));
+        // $userPasswordC = (md5($this->userPassword));
+        // $passWordC = (md5($apikey . $userPasswordC . $userEmailC));
+        // $custPassword = "09";
+        // $saltPassword = $userPasswordC;
+        // $userPassword = crypt($userEmailC, '$2b$' . $custPassword . '$' . $saltPassword . '$');
 
-        $userEmailC = (md5($emailDB));
-        $userPasswordC = (md5($this->userPassword));
+        //include_once('Crypt.model.php');
+        $Crypt = new Crypt();
 
-        $passWordC = (md5($apikey . $userPasswordC . $userEmailC));
+        $Cemail = $emailDB;
+        $Cpass = $this->userPassword;
 
-        $custPassword = "09";
-        $saltPassword = $userPasswordC;
+        //$userPassword = $Cpass;
 
-        $userPassword = crypt($userEmailC, '$2b$' . $custPassword . '$' . $saltPassword . '$');
+        $userPassword = $Crypt->CryptPass($Cemail, $Cpass);
+        $userHash = $Crypt->CryptHash($Cemail, $Cpass);
 
 
         if (!(($emailDB === $this->userLoginEmail || $nameDB === $this->userLoginEmail) && ($passwordDB === $userPassword && ($idStatusDB == 2)))) {
@@ -107,8 +113,9 @@ class LOGIN
                 '$emailDB' => $emailDB,
                 '$nameDB' => $nameDB,
                 'senha sem criptografia' => $this->userPassword,
-                'senha entrada' => $userPassword,
-                'senha banco' => $passwordDB
+                'senha criptografada' => $userPassword,
+                'senha banco' => $passwordDB,
+                'hash criptografada'=>$userHash,
             ];
         } else {
             $result = [
@@ -117,8 +124,9 @@ class LOGIN
                 '$emailDB' => $emailDB,
                 '$nameDB' => $nameDB,
                 'senha sem criptografia' => $this->userPassword,
-                'senha entrada' => $userPassword,
-                'senha banco' => $passwordDB
+                'senha criptografada' => $userPassword,
+                'senha banco' => $passwordDB,
+                'hash criptografada'=>$userHash,
             ];
 
             //Iniciar uma sessão

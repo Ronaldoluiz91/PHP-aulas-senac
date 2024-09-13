@@ -58,8 +58,6 @@ include("inc/head.inc.php");
     }
 </script>
 
-
-
 <?php
 include("inc/footer.inc.php");
 ?>

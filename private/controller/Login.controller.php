@@ -53,14 +53,7 @@ switch ($fxLogin) {
 
                 $result = $LOGIN->fxLogin;
 
-                // $result = [
-                //     'status' => true,
-                //     'msg' => " <h2>OK - Pode ir pro Model</h2>",
-                //     'userLogin' => $newUser,
-                //     'userEmail' => $newEmail,
-                //     'userPassword' => $userPassword,
-                //     'userConfirmPassword' => $confirmPassword
-                // ];
+            
             } else {
                 $result = [
                     'status' => false,
