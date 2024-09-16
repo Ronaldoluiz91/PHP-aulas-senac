@@ -29,7 +29,6 @@ include("inc/head.inc.php");
             return;
         }
 
-
         $.ajax({
             url: "<?= $urlPrivate ?>/controller/Login.controller.php",
             method: "POST",
@@ -39,6 +38,18 @@ include("inc/head.inc.php");
                 fxLogin: fxLogin
             }
         })
+
+           .done(function(result){
+            if(result['status']){
+                //document.getElementById("alertMsg").innerHTML = result.msg;
+                $('#alertMsg').removeClass("error");
+                $('#alertMsg').html(result.msg).addClass("success");
+            }else{
+                $('#alertMsg').removeClass("success");
+                $('#alertMsg').html(result.msg).addClass("error");
+            }
+        })
+      
     }
 </script>
 

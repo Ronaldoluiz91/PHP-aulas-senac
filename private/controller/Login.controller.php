@@ -38,10 +38,10 @@ switch ($fxLogin) {
         $confirmPassword = $_POST['confirmPassword'];
 
         if (
-            (isset($newUser)) || (empty($newUser)) || ($newUser === "") ||
-            (isset($newEmail)) || (empty($newEmail)) || ($newEmail === "") ||
-            (isset($userPassword)) || (empty($userPassword)) || ($userPassword === "") ||
-            (isset($confirmPassword)) || (empty($confirmPassword)) || ($confirmPassword === "")
+            !((!isset($newUser)) || (empty($newUser)) || ($newUser === "") ||
+            (!isset($newEmail)) || (empty($newEmail)) || ($newEmail === "") ||
+            (!isset($userPassword)) || (empty($userPassword)) || ($userPassword === "") ||
+            (!isset($confirmPassword)) || (empty($confirmPassword)) || ($confirmPassword === ""))
         ) {
 
             if ($userPassword === $confirmPassword) {
@@ -57,7 +57,7 @@ switch ($fxLogin) {
             } else {
                 $result = [
                     'status' => false,
-                    'msg' => "<h2>Usuario- senhas não combinam</h2>",
+                    'msg' => "<h2>Usuario- senhas não combinam be</h2>",
                     'userLogin' => $newUser,
                     'userEmail' => $newEmail,
                     'userPassword' => $userPassword,
@@ -74,8 +74,26 @@ switch ($fxLogin) {
 
     case 'Recuperar':
         $recLoginEmail = $_POST['recLoginEmail'];
+        
+     if((!isset ($recLoginEmail)) || (empty ($recLoginEmail)) || ($recLoginEmail ===""))
+     {
+        $result = [
+            'status'=> false,
+            'msg'=> 'Preencha o campo'
+        ];
+     } else {
+            $LOGIN->setUserLoginEmail($recLoginEmail);
+            $LOGIN->recoveryLogin($fxLogin);
 
-        $LOGIN->setUserLoginEmail($recLoginEmail);
+              $result = $LOGIN->fxLogin;
+       }
+        break;
+
+        case 'PasswordReset':
+        $result = [
+            'status'=> false,
+            'msg'=> 'Configure seu controller'
+        ];
         break;
 
     default:

@@ -179,4 +179,46 @@ class LOGIN
 
         return $this->fxLogin = $result;
     }
+
+
+public function recoveryLogin(String $fxLogin){
+require_once("../config/db/conn.php");
+
+$sql = "SELECT nome, email, hash FROM tbl_login WHERE email = :userEmail OR nome = :userName";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':userEmail', $this->userLoginEmail);
+$stmt->bindParam(':userName', $this->userLoginEmail);
+
+$stmt->execute();
+
+$userEmailDB = "";
+
+if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    $userEmailDB = $row['email'];
+    $userHash = $row['hash'];
+    $userNameDB = $row['nome'];
+}
+
+if(!(($userEmailDB === $this->userLoginEmail) || ($userNameDB === $this->userLoginEmail))){
+    $result = [
+        'status'=> false,
+        'msg'=> 'usuario ou email não cadastrado'
+    ];
+} else{
+include("../config/global.php");
+
+$url = "$urlPublic/password-reset-form.php?idRec=$userHash";
+
+
+$result = [
+    'status'=> true,
+    'msg'=> "<h2>Recuperar Senha</h2>
+    <p> Caro usuario $userNameDB , voce solicitou a recuperação de senha do Sistema</p>
+    <p>Segue o link para recuperar a senha clique abaixo ou se preferir cole no seu navegador</p>
+    <p><a href='$url' target='_blank'>$url<a/></p>
+    <p>Caso não tenha solicitado, desconsidere este email</p> "
+];
+}
+    return $this->fxLogin = $result;
+}
 }
