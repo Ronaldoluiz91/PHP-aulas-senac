@@ -90,10 +90,19 @@ switch ($fxLogin) {
         break;
 
         case 'PasswordReset':
-        $result = [
-            'status'=> false,
-            'msg'=> 'Configure seu controller'
-        ];
+         $userLoginEmail = $_POST['userLoginEmail'];
+         $userPassword = $_POST['userPassword'];
+         $userConfirmPassword = $_POST['userConfirmPassword'];
+         $idRec = $_POST['idRec'];
+
+         $LOGIN->setUserLoginEmail($userLoginEmail);
+         $LOGIN->setUserPassword($userPassword);
+         $LOGIN->setIdRec($idRec);
+
+         $LOGIN->PasswordReset($fxLogin);
+
+        $result = $LOGIN->fxLogin;
+        
         break;
 
     default:
