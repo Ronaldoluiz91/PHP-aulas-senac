@@ -1,8 +1,23 @@
 <?php
 include("../model/Login.model.php");
 
-//header('Content-Type: Application/json');
+//Inicia uma sessão
+session_start();
 
+//Configura a durção da sessão em 1minuto
+$sessionLifeTime = 1 * 60;
+$sessionStartTime = isset($_SESSION['start-time']) ? $_SESSION['start-time'] : time();
+
+//Verifica se a sessão expirou
+if(time() - $sessionStartTime > $sessionLifeTime){
+    //Se a sessão expirou, encerra a sessão
+    session_unset();
+    session_destroy();
+    //Redefine a variavel de inicio de sessão
+    $sessionStartTime = time();
+}
+//Atualiza o tempo da sessão
+$_SESSION['start-time'] = time();
 
 $LOGIN = new LOGIN();
 $fxLogin = $_POST['fxLogin'];
@@ -24,10 +39,18 @@ switch ($fxLogin) {
 
             $LOGIN->setUserLoginEmail($userLoginEmail);
             $LOGIN->setUserPassword($userPassword);
-
             $LOGIN->validateLogin($fxLogin);
 
             $result = $LOGIN->fxLogin;
+
+            //Validando o retorno com true e cria a sessão
+             if($result['status']){
+                //Criando a sessão com o login bem sucedido
+                $_SESSION['userLoginEmail'] = $userLoginEmail;
+                $_SESSION['loginValido'] = true;
+                //Atualiza o tempo da sessão após o login bem sucedido
+                $_SESSION['start-time'] = time();
+             }
         }
         break;
 

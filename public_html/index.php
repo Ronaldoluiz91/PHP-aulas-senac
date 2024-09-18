@@ -50,6 +50,7 @@ include("inc/head.inc.php");
                     // document.getElementById("alertMsg").innerHTML = result.msg;
                     $('#alertMsg').removeClass("error");
                     $('#alertMsg').html(result.msg).addClass("sucess");
+                    window.location.href = result.dashboardClient;
                 } else {
                     $('#alertMsg').html(result.msg).addClass("error");
 

@@ -81,27 +81,14 @@ class LOGIN
             $idStatusDB = $row['FK_idStatus'];
             $idAclDB = $row['FK_idAcesso'];
         }
-        //Criptografia
-        // $apikey = "maçã";
-        // $apikey = (md5($apikey));
-        // $userEmailC = (md5($emailDB));
-        // $userPasswordC = (md5($this->userPassword));
-        // $passWordC = (md5($apikey . $userPasswordC . $userEmailC));
-        // $custPassword = "09";
-        // $saltPassword = $userPasswordC;
-        // $userPassword = crypt($userEmailC, '$2b$' . $custPassword . '$' . $saltPassword . '$');
-
-        //include_once('Crypt.model.php');
+     
         $Crypt = new Crypt();
 
         $Cemail = $emailDB;
         $Cpass = $this->userPassword;
 
-        //$userPassword = $Cpass;
-
         $userPassword = $Crypt->CryptPass($Cemail, $Cpass);
         $userHash = $Crypt->CryptHash($Cemail, $Cpass);
-
 
         if (!(($emailDB === $this->userLoginEmail || $nameDB === $this->userLoginEmail) && ($passwordDB === $userPassword && ($idStatusDB == 2)))) {
             $result = [
@@ -118,18 +105,8 @@ class LOGIN
             $result = [
                 'status' => true,
                 'msg' => "Usuario valido",
-                '$emailDB' => $emailDB,
-                '$nameDB' => $nameDB,
-                'senha sem criptografia' => $this->userPassword,
-                'senha criptografada' => $userPassword,
-                'senha banco' => $passwordDB,
-                'hash criptografada'=>$userHash,
+                'dashboardClient'=>'http://localhost/tii06/projeto-streaming-tii06/public_html/dashboard-client.php',
             ];
-
-            //Iniciar uma sessão
-            session_start();
-            $_SESSION['nickName'] = (string) $nameDB;
-            $_SESSION['password'] = (string) $passwordDB;
         }
 
         return $this->fxLogin = $result;
