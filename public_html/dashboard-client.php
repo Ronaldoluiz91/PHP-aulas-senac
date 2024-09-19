@@ -25,7 +25,31 @@ $_SESSION['start-time'] = time();
     <title>DashBoard Client</title>
     <script>
     //Definir o tempo maximo da sessão 
-    const
+    const sessionLifeTime = <?=$sessionLifeTime?>
+
+    //Criando variavel com o tempo restante
+    var timeRemaining = <?=$timeRemaining?>
+
+    //Função para atualizar o contador de tempo restante
+    function updateTimeCount(){
+        if(timeRemaining <= 0){
+            document.getElementById('time-count').innerHTML = '<p>Sua sessão expirou</p>';
+            //Redireciona para a pg Login
+            window.location.href = 'index.php';
+            return;
+        }
+        var minutes = Math.floor(timeRemaining / 60);
+        var seconds = timeRemaining % 60;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        document.getElementById('time-count').innerHTML = `<p> tempo restante é : ${minutes} :${seconds}<p>`;
+         //Diminuir o tempo restante a cada segundo
+         timeRemaining--;
+    } 
+    //Atualiza o contador a cada segundo
+    setInterval(updateTimeCount, 1000);
+    //atualiza o contador imediatamente ao abrir a pagina
+    window.onload = updateTimeCount;
     </script>
 </head>
 <body>
@@ -33,6 +57,7 @@ $_SESSION['start-time'] = time();
     <p>Usuario esta logado como: <?php
     echo htmlspecialchars($_SESSION['userLoginEmail']);
     ?> </p>
+    <span id="time-count"></span>
     <hr>
     <a href="logout.php">SAIR</a>
 </body>
