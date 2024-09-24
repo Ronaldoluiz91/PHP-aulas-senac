@@ -105,7 +105,7 @@ class LOGIN
             $result = [
                 'status' => true,
                 'msg' => "Usuario valido",
-                'dashboardClient'=>'http://localhost/tii06/projeto-streaming-tii06/public_html/dashboard-client.php',
+                'dashboardClient'=>'http://localhost/tii06/projeto-streaming-tii06/public_html/dashboard.admin.php',
             ];
         }
 
