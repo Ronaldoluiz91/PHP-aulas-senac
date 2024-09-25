@@ -1,5 +1,5 @@
 <?php
- include_once('Crypt.model.php');
+include_once('Crypt.model.php');
 //Criando a classe de LOGIN
 class LOGIN
 {
@@ -81,7 +81,7 @@ class LOGIN
             $idStatusDB = $row['FK_idStatus'];
             $idAclDB = $row['FK_idAcesso'];
         }
-     
+
         $Crypt = new Crypt();
 
         $Cemail = $emailDB;
@@ -99,13 +99,13 @@ class LOGIN
                 'senha sem criptografia' => $this->userPassword,
                 'senha criptografada' => $userPassword,
                 'senha banco' => $passwordDB,
-                'hash criptografada'=>$userHash,
+                'hash criptografada' => $userHash,
             ];
         } else {
             $result = [
                 'status' => true,
                 'msg' => "Usuario valido",
-                'dashboardClient'=>'http://localhost/tii06/projeto-streaming-tii06/public_html/dashboard.admin.php',
+                'dashboardClient' => 'http://localhost/tii06/projeto-streaming-tii06/public_html/dashboard.admin.php',
             ];
         }
 
@@ -142,28 +142,28 @@ class LOGIN
             ];
         } else {
 
-           include_once("Crypt.model.php");
-           $Crypt = new Crypt();
-           $Cpass = $this->userPassword;
-           $Cemail = $emailDB;
+            include_once("Crypt.model.php");
+            $Crypt = new Crypt();
+            $Cpass = $this->userPassword;
+            $Cemail = $emailDB;
 
-           $passCP = $Crypt->CryptPass($Cemail, $Cpass);
-           $hashCP = $Crypt->CryptHash($Cemail, $Cpass);
+            $passCP = $Crypt->CryptPass($Cemail, $Cpass);
+            $hashCP = $Crypt->CryptHash($Cemail, $Cpass);
 
-           $idAcl = 1;
-           $idStatus = 2;
+            $idAcl = 1;
+            $idStatus = 2;
 
-           $sql = "INSERT INTO tbl_login (nome, email, senha, FK_idStatus, FK_idAcesso, hash)
+            $sql = "INSERT INTO tbl_login (nome, email, senha, FK_idStatus, FK_idAcesso, hash)
            VALUES (:nome, :email , :senha , :idStatus , :idAcesso, :hash) ";
 
-         $stmt = $conn->prepare($sql);
-         $stmt->bindParam(':nome', $this->newUser);
-         $stmt->bindParam(':email', $this->newEmail);
-         $stmt->bindParam(':senha', $passCP);
-         $stmt->bindParam(':hash', $hashCP);
-         $stmt->bindParam(':idStatus', $idStatus);
-         $stmt->bindParam(':idAcesso', $idAcl);
-         $stmt->execute();
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':nome', $this->newUser);
+            $stmt->bindParam(':email', $this->newEmail);
+            $stmt->bindParam(':senha', $passCP);
+            $stmt->bindParam(':hash', $hashCP);
+            $stmt->bindParam(':idStatus', $idStatus);
+            $stmt->bindParam(':idAcesso', $idAcl);
+            $stmt->execute();
 
 
 
@@ -191,16 +191,16 @@ class LOGIN
 
         $userEmailDB = "";
 
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $userEmailDB = $row['email'];
             $userHash = $row['hash'];
             $userNameDB = $row['nome'];
         }
 
-        if(!(($userEmailDB === $this->userLoginEmail) || ($userNameDB === $this->userLoginEmail))){
+        if (!(($userEmailDB === $this->userLoginEmail) || ($userNameDB === $this->userLoginEmail))) {
             $result = [
-                'status'=> false,
-                'msg'=> 'usuario ou email não cadastrado'
+                'status' => false,
+                'msg' => 'usuario ou email não cadastrado'
             ];
         } else {
             include("../config/global.php");
@@ -208,8 +208,8 @@ class LOGIN
             $url = "$urlPublic/password-reset-form.php?idRec=$userHash";
 
             $result = [
-                'status'=> true,
-                'msg'=> "<h2>Recuperar Senha</h2>
+                'status' => true,
+                'msg' => "<h2>Recuperar Senha</h2>
                 <p> Caro usuario $userNameDB , voce solicitou a recuperação de senha do Sistema</p>
                 <p>Segue o link para recuperar a senha clique abaixo ou se preferir cole no seu navegador</p>
                 <p><a href='$url' target='_blank'>$url<a/></p>
@@ -220,67 +220,69 @@ class LOGIN
     }
 
     //Função para atualizar senha
-    public function setIdRec( string $idRec){
+    public function setIdRec(string $idRec)
+    {
         $this->idRec = $idRec;
     }
 
-    public function getIdRec(){
+    public function getIdRec()
+    {
         return $this->idRec;
     }
 
-    public function passwordReset(string $fxLogin){
-     require_once("../config/db/conn.php");
+    public function passwordReset(string $fxLogin)
+    {
+        require_once("../config/db/conn.php");
 
-     $sql ="SELECT nome, email, hash FROM tbl_login WHERE email= :userEmail OR nome = :userName";
-     $stmt = $conn->prepare($sql);
-     $stmt->bindParam('userEmail', $this->userLoginEmail);
-     $stmt->bindParam('userName', $this->userLoginEmail);
-     $stmt->execute();
-
-     $emailDB ="";
-     $hashDB = "";
-
-     if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $emailDB = $row['email'];
-        $hashDB = $row['hash'];
-        $nameDB = $row['nome'];
-
-     }
-
-
-    if(
-        !((($emailDB === $this->userLoginEmail) || ($nameDB === $this->userLoginEmail))
-        && ($hashDB === $this->idRec))
-        ){
-             $result = [
-            'status'=> false,
-            'msg'=> 'Usuario/email ou seu idec invalido'
-        ];
-        }else{
-           include_once("Crypt.model.php");
-           $Crypt = new Crypt();
-           $Cpass = $this->userPassword;
-           $Cemail = $emailDB;
-
-           $passCP = $Crypt->CryptPass($Cemail, $Cpass);
-           $hashCP = $Crypt->CryptHash($Cemail, $Cpass);
-
-        //Preparando update
-
-        $sql = "UPDATE tbl_login SET senha = :passCP, hash = :hashCP WHERE email=:emailDB";
+        $sql = "SELECT nome, email, hash FROM tbl_login WHERE email= :userEmail OR nome = :userName";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':passCP', $passCP);
-        $stmt->bindParam(':hashCP', $hashCP);
-        $stmt->bindParam(':emailDB', $emailDB);
+        $stmt->bindParam('userEmail', $this->userLoginEmail);
+        $stmt->bindParam('userName', $this->userLoginEmail);
         $stmt->execute();
 
+        $emailDB = "";
+        $hashDB = "";
 
-             $result = [
-            'status'=> true,
-            'msg'=> 'Usúario sua senha foi alterada com sucesso'
-        ];
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $emailDB = $row['email'];
+            $hashDB = $row['hash'];
+            $nameDB = $row['nome'];
         }
-     
+
+
+        if (
+            !((($emailDB === $this->userLoginEmail) || ($nameDB === $this->userLoginEmail))
+                && ($hashDB === $this->idRec))
+        ) {
+            $result = [
+                'status' => false,
+                'msg' => 'Usuario/email ou seu idec invalido'
+            ];
+        } else {
+            include_once("Crypt.model.php");
+            $Crypt = new Crypt();
+            $Cpass = $this->userPassword;
+            $Cemail = $emailDB;
+
+            $passCP = $Crypt->CryptPass($Cemail, $Cpass);
+            $hashCP = $Crypt->CryptHash($Cemail, $Cpass);
+
+            //Preparando update
+
+            $sql = "UPDATE tbl_login SET senha = :passCP, hash = :hashCP WHERE email=:emailDB";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':passCP', $passCP);
+            $stmt->bindParam(':hashCP', $hashCP);
+            $stmt->bindParam(':emailDB', $emailDB);
+            $stmt->execute();
+
+
+            $result = [
+                'status' => true,
+                'msg' => 'Usúario sua senha foi alterada com sucesso'
+            ];
+        }
+
         return $this->fxLogin = $result;
     }
 }
