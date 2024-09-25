@@ -4,25 +4,25 @@ include("../model/Admin.model.php");
 $ACERVO = new ACERVO();
 
 $fxCad = $_POST['fxCad'];
-
 switch ($fxCad) {
     case 'cadCategoria':
-
         $addCategoria = $_POST['categoria'];
-
         if (empty($addCategoria)) {
             $result = [
                 'status' => false,
                 'msg' => "Usuario- Preencha o campo back"
             ];
-        } else {
+        }else{
             $ACERVO->setAddCategoria($addCategoria);
+
             $ACERVO->AddCategoria($fxCad);
 
-            $result = $ACERVO->$fxCad;
-        }
-        break;
+            $result = $ACERVO->fxCad;
 
+           
+        }
+        
+    break;
     case 'cadGenero':
 
         $addGenero = $_POST['genero'];
@@ -48,6 +48,6 @@ switch ($fxCad) {
         break;
 }
 
-
+*/
 header('Content-Type: Application/json');
 echo json_encode($result);

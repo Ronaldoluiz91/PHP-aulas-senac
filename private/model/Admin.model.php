@@ -23,9 +23,16 @@ class ACERVO
         return $this->addGenero;
     }
 
+public function AddCategorias(string $fxCad){
+$result = [
+                'status' => true,
+                'msg' => "Cadastro realizado com sucesso",
+            ];
+        return $this->fxCad = $result;
+}
 
     public function AddCategoria(string $fxCad)
-    {
+    {/*
         require  "../config/db/conn.php";
 
         $sql = "SELECT * FROM tbl_categoria WHERE descricao = :addCategoria ";
@@ -61,11 +68,15 @@ class ACERVO
                 'msg' => "Cadastro realizado com sucesso",
             ];
         }
-
+*/
+$result = [
+                'status' => true,
+                'msg' => "Cadastro realizado com sucesso2",
+            ];
         return $this->fxCad = $result;
     }
 
-    public function addGenero($fxCad)
+    public function addGenero(string $fxCad)
     {
         require  "../config/db/conn.php";
 
