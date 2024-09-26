@@ -3,6 +3,9 @@ class ACERVO
 {
     private $addCategoria;
     private $addGenero;
+    private $addEtaria;
+    private $addTitulo;
+
 
 
     public function setAddCategoria(string $addCategoria)
@@ -23,16 +26,27 @@ class ACERVO
         return $this->addGenero;
     }
 
-public function AddCategorias(string $fxCad){
-$result = [
-                'status' => true,
-                'msg' => "Cadastro realizado com sucesso",
-            ];
-        return $this->fxCad = $result;
-}
+    public function setAddEtaria(string $addEtaria)
+    {
+        $this->addEtaria = $addEtaria;
+    }
+    public function getAddEtaria()
+    {
+        return $this->addEtaria;
+    }
+
+    public function setAddTitulo(string $addTitulo)
+    {
+        $this->addTitulo = $addTitulo;
+    }
+    public function getAddTitulo()
+    {
+        return $this->addTitulo;
+    }
+
 
     public function AddCategoria(string $fxCad)
-    {/*
+    {
         require  "../config/db/conn.php";
 
         $sql = "SELECT * FROM tbl_categoria WHERE descricao = :addCategoria ";
@@ -68,11 +82,7 @@ $result = [
                 'msg' => "Cadastro realizado com sucesso",
             ];
         }
-*/
-$result = [
-                'status' => true,
-                'msg' => "Cadastro realizado com sucesso2",
-            ];
+
         return $this->fxCad = $result;
     }
 
@@ -95,11 +105,11 @@ $result = [
         if ($generoDB === $this->addGenero) {
             $result = [
                 'status' => false,
-                'msg' => "Categoria ja cadastrada",
-                'Categoria' => $this->addCategoria,
+                'msg' => "Genero ja cadastrado",
+                'Categoria' => $this->addGenero,
             ];
         } else {
-            $insertSql = "INSERT INTO tbl_categoria (idCategoria, descricao) 
+            $insertSql = "INSERT INTO tbl_genero (idGenero, descricao) 
           VALUES (null, :descricao)";
             $insertStmt = $conn->prepare($insertSql);
 
@@ -114,6 +124,51 @@ $result = [
             ];
         }
 
-          return $this->fxCad = $result;
+        return $this->fxCad = $result;
+    }
+
+    public function addEtaria(string $fxCad)
+    {
+        require  "../config/db/conn.php";
+
+        $sql = "SELECT * FROM tbl_etaria WHERE descricao = :addEtaria ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':addEtaria', $this->addEtaria);
+        $stmt->execute();
+
+        $etariaDB = "";
+
+        //Busca o resultado da consulta 
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $etariaDB = $row['descricao'];
+        }
+
+        if ($etariaDB === $this->addEtaria) {
+            $result = [
+                'status' => false,
+                'msg' => "Faixa etaria ja cadastrado",
+            ];
+        } else {
+            $insertSql = "INSERT INTO tbl_etaria (idEtaria, descricao) 
+          VALUES (null, :descricao)";
+            $insertStmt = $conn->prepare($insertSql);
+
+            // Executa a inserção
+            $insertStmt->execute([
+                ':descricao' => $this->addEtaria,
+            ]);
+
+            $result = [
+                'status' => true,
+                'msg' => "Cadastro realizado com sucesso",
+            ];
+        }
+
+        return $this->fxCad = $result;
+    }
+
+    public function addTitulo (string $fxCad)
+    {
+
     }
 }

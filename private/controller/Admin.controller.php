@@ -40,6 +40,42 @@ switch ($fxCad) {
         }
         break;
 
+         case 'cadEtaria':
+
+        $addEtaria = $_POST['etaria'];
+
+        if (empty($addEtaria)) {
+            $result = [
+                'status' => false,
+                'msg' => "Preencha o campo back"
+            ];
+        } else {
+            $ACERVO->setAddEtaria($addEtaria);
+            $ACERVO->addEtaria($fxCad);
+
+            $result = $ACERVO->fxCad;
+        }
+        break;
+
+
+        case 'cadMidia':
+
+        $addTitulo = $_POST['titulo'];
+        $genero = $_POST['sel_genero'];
+        $categoria = $_POST['sel_categoria'];
+        $etaria = $_POST['sel_etaria'];
+
+        if(empty($addTitulo) || empty($genero) || empty($categoria) || empty($etaria))
+        {
+            $result = [
+                'status' => false,
+                'msg' => "Preencha todos os campos back"
+            ]; 
+        } else{
+            
+        }
+        
+
     default:
         $result = [
             'status' => false,
@@ -48,6 +84,6 @@ switch ($fxCad) {
         break;
 }
 
-*/
+
 header('Content-Type: Application/json');
 echo json_encode($result);

@@ -18,6 +18,59 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     <script src="acoesAdmin.js"></script>
 </head>
 
+<!-- Formulario para adicionar nova Categoria -->
+<div class="form-categoria">
+    <h3 class="titulo-form">Adicionar Nova Categoria ao Acervo</h3>
+    <br>
+    <div id="alertMsg"></div>
+
+    <div>
+        <label for="desc-categoria">Descrição:</label>
+        <input type="text" id="desc-categoria" name="desc-categoria" placeholder="Digite a categoria" required>
+
+        <input type="hidden" id="fxCad" name="fxCad" value="cadCategoria">
+    </div>
+
+    <button onclick="cadCategoria()">Adicionar Categoria</button>
+</div>
+<hr>
+
+
+<!-- Formulario para adicionar novo Genero -->
+<div class="form-genero">
+    <h3 class="titulo-form">Adicionar Novo Genero ao Acervo</h3>
+    <br>
+    <div id="alertMsg2"></div>
+
+    <div>
+        <label for="genero">Genero:</label>
+        <input type="text" id="desc-genero" name="desc-genero" placeholder="Digite o genero">
+
+        <input type="hidden" id="fxCad2" name="fxCad2" value="cadGenero">
+    </div>
+
+    <button onclick="cadGenero()">Adicionar Genero</button>
+</div>
+<hr>
+
+<!-- Formulario para adicionar nova faixa etaria -->
+<div class="form-etaria">
+    <h3 class="titulo-form">Adicionar Faixa etaria ao Acervo</h3>
+    <br>
+    <div id="mensagem"></div>
+
+    <div>
+        <label for="etaria">Faixa Etaria:</label>
+        <input type="text" id="desc-etaria" name="desc-etaria" placeholder="Digite a faixa etaria" required>
+
+        <input type="hidden" id="fxCad3" name="fxCad3" value="cadEtaria">
+    </div>
+
+    <button onclick="cadEtaria()">Adicionar Faixa Etaria</button>
+</div>
+<hr>
+
+<!-- Formulario do Acervo -->
 <div class="form-acervo">
     <div>
         <h3 class="titulo-form">Adicionar Nova Midia ao Acervo</h3>
@@ -92,62 +145,14 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
             </select>
         </div>
 
-        <button type="button" id="cad-midia">Adicionar Midia</button>
+        <input type="hidden" id="fxCad4" name="fxCad4" value="cadMidia">
+
+
+
+        <button onclick="cadMidia()">Adicionar Midia</button>
     </div>
 </div>
 </form>
-<hr>
-
-<!-- Formulario para adicionar nova Categoria -->
-<div class="form-categoria">
-    <h3 class="titulo-form">Adicionar Nova Categoria ao Acervo</h3>
-    <br>
-    <div id="alertMsg"></div>
-
-    <div>
-        <label for="desc-categoria">Descrição:</label>
-        <input type="text" id="desc-categoria" name="desc-categoria" placeholder="Digite a categoria" required>
-
-        <input type="hidden" id="fxCad" name="fxCad" value="cadCategoria">
-    </div>
-
-    <button onclick="cadCategoria()">Adicionar Categoria</button>
-</div>
-<hr>
-
-
-<!-- Formulario para adicionar novo Genero -->
-<div class="form-genero">
-    <h3 class="titulo-form">Adicionar Novo Genero ao Acervo</h3>
-    <br>
-    <div id="alertMsg2"></div>
-
-    <div>
-        <label for="genero">Genero:</label>
-        <input type="text" id="genero" name="genero" placeholder="Digite o genero" required>
-
-        <input type="hidden" id="fxCad" name="fxCad" value="cadGenero">
-    </div>
-
-    <button onclick="cadGenero()">Adicionar Genero</button>
-</div>
-<hr>
-
-<!-- Formulario para adicionar nova faixa etaria -->
-<div class="form-etaria">
-    <h3 class="titulo-form">Adicionar Faixa etaria ao Acervo</h3>
-    <br>
-    <div id="mensagem"></div>
-
-    <div>
-        <label for="etaria">Faixa Etaria:</label>
-        <input type="text" id="etaria" name="etaria" placeholder="Digite a faixa etaria" required>
-
-        <input type="hidden" id="fxCad" name="fxCad" value="cadEtaria">
-    </div>
-
-    <button type="button" id="cad-etaria">Adicionar Faixa Etaria</button>
-</div>
 <hr>
 
 
