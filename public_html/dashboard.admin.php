@@ -4,6 +4,9 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     header("Location: index.php");
     exit();
 }
+
+$login = $_SESSION['loginValido'];
+
 ?>
 
 <!DOCTYPE html>
@@ -75,7 +78,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     <div>
         <h3 class="titulo-form">Adicionar Nova Midia ao Acervo</h3>
         <br>
-        <div id="mensagem"></div>
+        <div id="mensagemMidia"></div>
 
         <div>
             <label for="titulo">Titulo:</label>
@@ -145,9 +148,9 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
             </select>
         </div>
 
+        <input type="hidden" id="login" name="login" value="<?= $login ?>">
+
         <input type="hidden" id="fxCad4" name="fxCad4" value="cadMidia">
-
-
 
         <button onclick="cadMidia()">Adicionar Midia</button>
     </div>

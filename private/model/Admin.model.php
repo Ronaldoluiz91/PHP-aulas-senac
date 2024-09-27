@@ -6,6 +6,12 @@ class ACERVO
     private $addEtaria;
     private $addTitulo;
 
+    private $genero;
+    private $categoria;
+    private $etaria;
+
+    private $loginValido;
+
 
 
     public function setAddCategoria(string $addCategoria)
@@ -44,6 +50,41 @@ class ACERVO
         return $this->addTitulo;
     }
 
+    public function setGenero(string $genero)
+    {
+        $this->genero = $genero;
+    }
+    public function getGenero()
+    {
+        return $this->genero;
+    }
+
+    public function setCategoria(string $categoria)
+    {
+        $this->categoria = $categoria;
+    }
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    public function setEtaria(string $etaria)
+    {
+        $this->etaria = $etaria;
+    }
+    public function getEtaria()
+    {
+        return $this->etaria;
+    }
+
+    public function setLoginValido(string $loginValido)
+    {
+        $this->loginValido = $loginValido;
+    }
+    public function getLoginValido()
+    {
+        return $this->loginValido;
+    }
 
     public function AddCategoria(string $fxCad)
     {
@@ -163,12 +204,72 @@ class ACERVO
                 'msg' => "Cadastro realizado com sucesso",
             ];
         }
-
-        return $this->fxCad = $result;
     }
 
-    public function addTitulo (string $fxCad)
+    public function addTitulo(string $fxCad)
     {
+        require  "../config/db/conn.php";
+
+        // Verifica se o título já está cadastrado
+        $sql = "SELECT * FROM tbl_acervo WHERE Titulo = :addTitulo";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':addTitulo', $this->addTitulo);
+        $stmt->execute();
+
+        $tituloDB = "";
+
+        // Busca o resultado da consulta 
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $tituloDB = $row['Titulo'];
+        } 
+        
+        if($tituloDB === $this->addTitulo)
+        {
+              $result = [
+                'status' => false,
+                'msg' => "Título já cadastrado",
+            ];
+        } else {
+
+            // Verifica se o usuário está logado
+            $sql = "SELECT * FROM tbl_login WHERE nome = :loginValido OR email = :loginValido";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':loginValido', $this->loginValido);
+            $stmt->execute();
+
+            // Busca o resultado da consulta 
+            if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $this->loginValido = $row['idLogin'];
+
+
+                // Prepara sua consulta SQL para inserir na tabela
+                $insertSql = "INSERT INTO tbl_acervo (idAcervo, Titulo, FK_idGenero, FK_idCategoria, FK_idEtaria, Fk_idLogin) 
+                      VALUES (null, :titulo, :genero, :categoria, :etaria, :login)";
+                $insertStmt = $conn->prepare($insertSql);
+
+                // Executa a inserção
+                $insertStmt->execute([
+                    ':titulo' => $this->addTitulo,
+                    ':genero' => $this->genero,
+                    ':categoria' => $this->categoria,
+                    ':etaria' => $this->etaria,
+                    ':login' => $this->loginValido,
+                ]);
+
+                $result = [
+                    'status' => true,
+                    'msg' => "Cadastro realizado com sucesso",
+                ];
+            } else {
+                $result = [
+                    'status' => false,
+                    'msg' => "Você precisa estar logado para cadastrar.",
+                ];
+            }
+        }
+
+        return $this->fxCad = $result;
+        
 
     }
 }

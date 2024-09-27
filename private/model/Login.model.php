@@ -165,8 +165,6 @@ class LOGIN
             $stmt->bindParam(':idAcesso', $idAcl);
             $stmt->execute();
 
-
-
             $result = [
                 'status' => true,
                 'msg' => "Usuario/email cadastrado com sucesso",

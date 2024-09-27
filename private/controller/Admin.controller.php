@@ -12,17 +12,14 @@ switch ($fxCad) {
                 'status' => false,
                 'msg' => "Usuario- Preencha o campo back"
             ];
-        }else{
+        } else {
             $ACERVO->setAddCategoria($addCategoria);
 
             $ACERVO->AddCategoria($fxCad);
 
             $result = $ACERVO->fxCad;
-
-           
         }
-        
-    break;
+        break;
     case 'cadGenero':
 
         $addGenero = $_POST['genero'];
@@ -40,10 +37,8 @@ switch ($fxCad) {
         }
         break;
 
-         case 'cadEtaria':
-
+    case 'cadEtaria':
         $addEtaria = $_POST['etaria'];
-
         if (empty($addEtaria)) {
             $result = [
                 'status' => false,
@@ -57,24 +52,28 @@ switch ($fxCad) {
         }
         break;
 
-
-        case 'cadMidia':
-
+    case 'cadMidia':
         $addTitulo = $_POST['titulo'];
         $genero = $_POST['sel_genero'];
         $categoria = $_POST['sel_categoria'];
         $etaria = $_POST['sel_etaria'];
+        $loginValido = $_POST['login'];
 
-        if(empty($addTitulo) || empty($genero) || empty($categoria) || empty($etaria))
-        {
+        if (empty($addTitulo) || empty($genero) || empty($categoria) || empty($etaria) || empty($loginValido)) {
             $result = [
                 'status' => false,
                 'msg' => "Preencha todos os campos back"
-            ]; 
-        } else{
-            
+            ];
+        } else {
+            $ACERVO->setAddTitulo($addTitulo);
+            $ACERVO->setGenero($genero);
+            $ACERVO->setCategoria($categoria);
+            $ACERVO->setEtaria($etaria);
+            $ACERVO->addTitulo($fxCad);
+
+            $result = $ACERVO->fxCad;
         }
-        
+        break;
 
     default:
         $result = [
@@ -87,3 +86,12 @@ switch ($fxCad) {
 
 header('Content-Type: Application/json');
 echo json_encode($result);
+
+// echo "<pre>";
+// var_dump($ACERVO);
+// echo "</pre>";
+
+// echo "<pre>";
+// var_dump($result);
+// echo "</pre>";
+
