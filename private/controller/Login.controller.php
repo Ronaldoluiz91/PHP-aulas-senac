@@ -139,10 +139,10 @@ switch ($fxLogin) {
 header('Content-Type: Application/json');
 echo json_encode($result);
 
-// echo "<pre>";
-// var_dump($LOGIN);
-// echo "</pre>";
+echo "<pre>";
+var_dump($LOGIN);
+echo "</pre>";
 
-// echo "<pre>";
-// var_dump($result);
-// echo "</pre>";
+echo "<pre>";
+var_dump($result);
+echo "</pre>";
